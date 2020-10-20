@@ -4,7 +4,7 @@
 
 This is a map of voter precincts in Travis County, Texas to show the turn out for the 2020 General Election and how it varies with geography.  
 
-**Please Note: This is my own personal work and is not offical election information!**
+**Please note: This is my own personal work and is not offical election information!**
 
 # Sources
 
