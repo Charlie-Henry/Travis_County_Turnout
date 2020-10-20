@@ -130,6 +130,12 @@
     });
     var hoveredStateId = null;
 
+    // disable map rotation using right click + drag
+    map.dragRotate.disable();
+ 
+    // disable map rotation using touch rotation gesture
+    map.touchZoomRotate.disableRotation();
+
     map.on('load', function () {
         map.addSource('precincts', {
             'type': 'geojson',
@@ -161,11 +167,11 @@
             }
         });
         var legendlayers = [
-              '0%', 
-              '20%', 
-              '40%', 
-              '60%', 
-              '80%', 
+              '0-19%', 
+              '20-39%', 
+              '40-59%', 
+              '60-79%', 
+              '80-100%', 
             ];
             var colors = [
               '#eff3ff', 
