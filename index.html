@@ -117,7 +117,8 @@
 <div id='map'></div>
 <div class="map-overlay" id="legend"></div>
 <div class='map-overlay' id='features'><h2>Travis County Voter Turnout Map</h2>
-    <div id='pd'><p>Updated: Oct. 19th</p></div></div>
+    <div id='pd1'><p><a href="https://twitter.com/shiftmodal">by Charlie Henry</p></div></div>
+    <div id='pd2'><p>UNOFFICAL - Updated: Oct. 19th</p></div></div>
 <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxpZTIzNDMiLCJhIjoiY2p1MzBiYWRlMDF3eTRlczdoaHFxMzl0MCJ9.juqQvFAijgos8InomJ-R7A';
     var map = new mapboxgl.Map({
@@ -195,7 +196,7 @@
               //You can adjust the values of the popup to match the headers of your CSV. 
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV.
 
-              var description = `<h3>`+ `Precinct:` + e.features[0].properties.pct + `</h3>` + `<h4>` + `<b>` + `Registered Voters: ` + `</b>` + e.features[0].properties.right_active_registered + `</h4>` + `<h4>` + `<b>` + `Voter Turnout: ` + `</b>` + e.features[0].properties.right_turnout_number +`</h4>`; 
+              var description = `<h3>`+ `Precinct: ` + e.features[0].properties.pct + `</h3>` + `<h4>` + `<b>` + `Registered Voters: ` + `</b>` + e.features[0].properties.right_active_registered + `</h4>` + `<h4>` + `<b>` + `Voter Turnout: ` + `</b>` + e.features[0].properties.right_turnout_number +`</h4>`; 
 
               new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
