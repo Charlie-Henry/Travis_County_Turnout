@@ -148,13 +148,13 @@
           if (precincts.length > 0) {
             document.getElementById('pd').innerHTML =
               '<h3><strong>' +
-              precincts[0].properties.name +
+              precincts[0].properties.pct +
               '</strong></h3><p><strong><em>' +
-              precincts[0].properties.density +
+              precincts[0].properties.right_turnout_number +
               '</strong> people per square mile</em></p>';
           } else {
             document.getElementById('pd').innerHTML =
-              '<p>Hover over a state!</p>';
+              '<p>Hover over a voting precinct!</p>';
           }
         });
         
