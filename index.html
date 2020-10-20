@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Create a hover effect</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxpZTIzNDMiLCJhIjoiY2tiMTFqa2NpMDFkMjJxbHRpaTF1bHdrcCJ9.cZb6dlMtVboQInxlQmbASw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/charlie2343/ckcfdyfph01ms1iqz9vnd7ft6',
+        center: [30.268937, -97.747875],
+        zoom: 9
+    });
+    var hoveredStateId = null;
+
+    map.on('load', function () {
+        map.addSource('precincts', {
+            'type': 'geojson',
+            'data':
+                'https://raw.githubusercontent.com/Charlie-Henry/Travis_County_Turnout/main/Travis_County_Election_Turnout.geojson'
+        });
+        map.addLayer({
+            'id': 'fills',
+            'type': 'fill',
+            'source': 'precincts',
+            'layout': {},
+            'paint': {
+                'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get','right_turnout_number']
+                0,
+                '#eff3ff',
+                0.2,
+                '#bdd7e7',
+                0.4,
+                '#6baed6',
+                0.6,
+                '#3182bd',
+                0.8,
+                '#08519c'],
+                'fill-opacity': 0.75
+            }
+        });
+
+        
+    });
+</script>
+
+</body>
+</html>
