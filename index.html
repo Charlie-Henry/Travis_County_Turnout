@@ -1,151 +1,109 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="utf-8" />
+<title>Create a hover effect</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Replace with your title</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
-    <link rel="stylesheet" href="style.css">
-
-  </head>
-  <style>
-    body {
-      background: #404040;
-      margin: 0;
-      padding: 0;
-    }
-
-
-    #map {
-      border-left: 1px solid #fff;
-      position: absolute;
-      width: 100%;
-      top: 0;
-      bottom: 0;
-    }
-
-
-    .mapboxgl-popup {
-      padding-bottom: 5px;
-    }
-
-    .mapboxgl-popup-close-button {
-      display: none;
-    }
-
-    .mapboxgl-popup-content {
-      font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
-      padding: 0;
-      width: 250px;
-    }
-
-    .mapboxgl-popup-content-wrapper {
-      padding: 1%;
-    }
-
-    .mapboxgl-popup-content h3 {
-      background: rgb(61, 59, 59);
-      text-align: center;
-      color: #fff;
-      margin: 0;
-      display: block;
-      padding: 15px;
-      font-weight: 700;
-      margin-top: -5px;
-    }
-
-    .mapboxgl-popup-content h4 {
-      margin: 0;
-      display: block;
-      padding: 10px 3px 10px 10px;
-      font-weight: 400;
-    }
-
-    .mapboxgl-container {
-      cursor: pointer;
-    }
-
-    .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
-      margin-top: 3px;
-    }
-
-    .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
-      border-bottom-color: rgb(61, 59, 59);
-    }
-
-  </style>
-
-  <body>
-
-    <div id="map"></div>
-    <script>
-      var transformRequest = (url, resourceType) => {
-        var isMapboxRequest =
-          url.slice(8, 22) === "api.mapbox.com" ||
-          url.slice(10, 26) === "tiles.mapbox.com";
-        return {
-          url: isMapboxRequest
-            ? url.replace("?", "?pluginName=sheetMapper&")
-            : url
-        };
-      };
-
-      //YOUR TURN: add your Mapbox access token 
-      mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxpZTIzNDMiLCJhIjoiY2tiMTFqa2NpMDFkMjJxbHRpaTF1bHdrcCJ9.cZb6dlMtVboQInxlQmbASw';
-      var map = new mapboxgl.Map({
-        container: 'map', // container id
-        style: "mapbox://styles/charlie2343/cjws4vujh7uz01cpfiz058mo0", //YOUR TURN: choose a style: https://docs.mapbox.com/api/maps/#styles
-        center: [-122.411464, 37.7852299], // starting position [lng, lat]
-        zoom: 9, // starting zoom
-        transformRequest: transformRequest
-      });
-
-
-      map.on("load", function() {
-        init();
-      });
-
-      // Initialize Tabletop to access your table
-      function init() {
-        Tabletop.init({
-          // YOUR TURN: change 'key' value to point to your spreadsheet
-          key: 'https://docs.google.com/spreadsheets/d/1SiPTGbj5DPDdjMrhrgk6SyKE2EcZYkX58NnYviRxNAo/edit?usp=sharing',
-          // once Tabletop has loaded the data, it passes it to the 'callback' function, 'addPoints', defined below
-          callback: addPoints,
-          simpleSheet: true
-        });
+    #legend {
+        padding: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        line-height: 18px;
+        height: 150px;
+        margin-bottom: 40px;
+        width: 100px;
+      }
+      .legend-key {
+        display: inline-block;
+        border-radius: 20%;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
       }
 
+</style>
+</head>
+<body>
+<div id='map'></div>
+  <div class="map-overlay" id="legend"></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxpZTIzNDMiLCJhIjoiY2tiMTFqa2NpMDFkMjJxbHRpaTF1bHdrcCJ9.cZb6dlMtVboQInxlQmbASw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/charlie2343/ckcfdyfph01ms1iqz9vnd7ft6',
+        center: [30.268937, -97.747875],
+        zoom: 9
+    });
+    var hoveredStateId = null;
 
-      // create a function called addPoints that iterates through your table (row by row) to create markers and popups
-      function addPoints(data) {
-
-        // iterate through your table to set the marker to lat/long values for each row
-
-        data.forEach(function(row) {
-
-          // create a variable for your popup and populate your popup with information from your table
-          var popup = new mapboxgl.Popup()
-            .setHTML(`<h3>` + row.Name + `</h3>` + '<h4>' + '<b>' + 'Address: ' + '</b>' + row.Address + '</h4>' + '<h4>' + '<b>' + 'Phone: ' + '</b>' + row.Phone + '</h4>'); // use the table to populate your popup with text
-
-
-          // create a variable for your markup and add it to the map 
-          var marker = new mapboxgl.Marker({
-              color: 'purple'
-            })
-            .setLngLat([row.Longitude, row.Latitude])
-            .setPopup(popup)
-            .addTo(map); // add the marker to the map
-
+    map.on('load', function () {
+        map.addSource('precincts', {
+            'type': 'geojson',
+            'data':
+                'https://raw.githubusercontent.com/Charlie-Henry/Travis_County_Turnout/main/Travis_County_Election_Turnout.geojson'
         });
-      }
+        map.addLayer({
+            'id': 'fills',
+            'type': 'fill',
+            'source': 'precincts',
+            'layout': {},
+            'paint': {
+                'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get','right_turnout_number']
+                0,
+                '#eff3ff',
+                0.2,
+                '#bdd7e7',
+                0.4,
+                '#6baed6',
+                0.6,
+                '#3182bd',
+                0.8,
+                '#08519c'],
+                'fill-opacity': 0.75
+            }
+        });
+        var legendlayers = [
+              '0.0', 
+              '0.2', 
+              '0.4', 
+              '0.6', 
+              '0.8', 
+            ];
+            var colors = [
+              '#eff3ff', 
+              '#bdd7e7', 
+              '#6baed6', 
+              '#3182bd', 
+              '#08519c', 
+            ];
 
-    </script>
-  </body>
+            for (i = 0; i < legendlayers.length; i++) {
+              var layer = legendlayers[i];
+              var color = colors[i];
+              var item = document.createElement('div');
+              var key = document.createElement('span');
+              key.className = 'legend-key';
+              key.style.backgroundColor = color;
 
+              var value = document.createElement('span');
+              value.innerHTML = layer;
+              item.appendChild(key);
+              item.appendChild(value);
+              legend.appendChild(item);
+            }
+        
+    }
+
+    );
+</script>
+
+</body>
 </html>
