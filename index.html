@@ -9,6 +9,21 @@
 <style>
 	body { margin: 0; padding: 0; }
 	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        /**
+    * Set rules for how the map overlays
+    * (information box and legend) will be displayed
+    * on the page. */
+    .map-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.8);
+      margin-right: 20px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      border-radius: 3px;
+    }
+
 
     #legend {
         padding: 10px;
@@ -32,10 +47,10 @@
 <div id='map'></div>
   <div class="map-overlay" id="legend"></div>
 <script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxpZTIzNDMiLCJhIjoiY2tiMTFqa2NpMDFkMjJxbHRpaTF1bHdrcCJ9.cZb6dlMtVboQInxlQmbASw';
+	mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxpZTIzNDMiLCJhIjoiY2p1MzBiYWRlMDF3eTRlczdoaHFxMzl0MCJ9.juqQvFAijgos8InomJ-R7A';
     var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/charlie2343/ckcfdyfph01ms1iqz9vnd7ft6',
+        style: 'mapbox://styles/charlie2343/ckgiebjg000a019o4hklx82k3',
         center: [-97.747875,30.268937],
         zoom: 9
     });
