@@ -138,25 +138,6 @@
               item.appendChild(value);
               legend.appendChild(item);
             }
-
-            // change info window on hover
-        map.on('mousemove', function (e) {
-          var states = map.queryRenderedFeatures(e.point, {
-            layers: ['precincts']
-          });
-
-          if (precincts.length > 0) {
-            document.getElementById('pd').innerHTML =
-              '<h3><strong>' +
-              precincts[0].properties.pct +
-              '</strong></h3><p><strong><em>' +
-              precincts[0].properties.right_turnout_number +
-              '</strong> people per square mile</em></p>';
-          } else {
-            document.getElementById('pd').innerHTML =
-              '<p>Hover over a voting precinct!</p>';
-          }
-        });
         
     }
 
